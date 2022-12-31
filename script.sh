@@ -1,8 +1,7 @@
 aws s3 ls s3://my-s3-bucket12345678985277/ > comparefile
 cmp s3 comparefile > output
-if [ -s /path/to/file ]; then
-    aws s3 ls s3://my-s3-bucket12345678985277/ > s3
-    cut -d' ' -f9 s3 > images
+if [ -s output ]; then
+    cut -d' ' -f9 comparefile > images
     var=$(cat images)
     arr=($(echo "$var" | tr ' ' '\n'))
     count=0
@@ -15,8 +14,9 @@ if [ -s /path/to/file ]; then
             sed -i "/]/i \    {\"url\": \"https//my-s3-bucket12345678985277.s3.amazonaws.com/$element\"}" ./CloudToDoApp/backend/data/carrousel.json
         fi
     done
-
-    if [ $count -gt 0 ] then
+    aws s3 ls s3://my-s3-bucket12345678985277/ > s3
+    echo $count
+    if [ $count -gt 0 ]; then
         docker-compose down
         docker-compose rm
         cd ./CloudToDoApp
