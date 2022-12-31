@@ -11,7 +11,10 @@ if [ -s output ]; then
             :
         else
             let count=count+1
-            sed -i "/]/i \    {\"url\": \"https//my-s3-bucket12345678985277.s3.amazonaws.com/$element\"}" ./CloudToDoApp/backend/data/carrousel.json
+            sed -i '$d' ./CloudToDoApp/backend/data/carrousel.json
+            sed -i '$s/$/,/' ./CloudToDoApp/backend/data/carrousel.json
+            echo "]" >> ./CloudToDoApp/backend/data/carrousel.json
+            sed -i "/]/i \    {\"url\": \"https://my-s3-bucket12345678985277.s3.amazonaws.com/$element\"}" ./CloudToDoApp/backend/data/carrousel.json
         fi
     done
     aws s3 ls s3://my-s3-bucket12345678985277/ > s3
