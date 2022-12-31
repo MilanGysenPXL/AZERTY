@@ -17,10 +17,12 @@ if [ -s output ]; then
     aws s3 ls s3://my-s3-bucket12345678985277/ > s3
     echo $count
     if [ $count -gt 0 ]; then
+        cd ./CloudToDoApp
+        git switch sequelize
         docker-compose down
         docker-compose rm
-        cd ./CloudToDoApp
+        docker system prune -a --force
         docker-compose build --no-cache
-        docker-compose up -d
+        docker-compose up
     fi
 fi
