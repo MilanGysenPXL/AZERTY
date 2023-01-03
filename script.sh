@@ -1,4 +1,5 @@
-aws s3 ls s3://my-s3-bucket12345678985277/ > comparefile
+bucket=$1
+aws s3 ls s3://$bucket/ > comparefile
 cmp s3 comparefile > output
 if [ -s output ]; then
     cut -d' ' -f9 comparefile > images
@@ -14,10 +15,10 @@ if [ -s output ]; then
             sed -i '$d' ./CloudToDoApp/backend/data/carrousel.json
             sed -i '$s/$/,/' ./CloudToDoApp/backend/data/carrousel.json
             echo "]" >> ./CloudToDoApp/backend/data/carrousel.json
-            sed -i "/]/i \    {\"url\": \"https://my-s3-bucket12345678985277.s3.amazonaws.com/$element\"}" ./CloudToDoApp/backend/data/carrousel.json
+            sed -i "/]/i \    {\"url\": \"https://$bucket.s3.amazonaws.com/$element\"}" ./CloudToDoApp/backend/data/carrousel.json
         fi
     done
-    aws s3 ls s3://my-s3-bucket12345678985277/ > s3
+    aws s3 ls s3://$bucket/ > s3
     echo $count
     if [ $count -gt 0 ]; then
         cd ./CloudToDoApp
