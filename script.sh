@@ -25,7 +25,6 @@ if [ -s output ]; then
         git switch sequelize
         docker-compose down
         docker-compose rm
-        docker system prune -a --force
         docker-compose build --no-cache
         docker-compose up
     fi
